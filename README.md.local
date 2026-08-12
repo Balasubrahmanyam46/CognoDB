@@ -1,0 +1,78 @@
+# Skill Exchange & Mentor Matching Network
+
+A graph-powered platform where people discover mentors based on the actual skill
+gaps in the projects they're working on — built on CognoDB for the Wexa AI take-home assignment.
+
+## Use case
+
+Teams often don't know who internally could mentor them on a skill their current
+project needs. This app models people, their skills, the projects they work on,
+and existing mentorship relationships as a graph, then answers two questions a
+flat employee directory can't: "who could mentor me right now?" and "how is
+person A connected to person B through the mentorship chain?"
+
+## Why a graph database?
+
+The core question — "find people whose skills match what my project needs,
+excluding people already on it" — is a 3-hop traversal (Person → Project →
+Skill ← Candidate). In a relational schema this means multiple joins across
+junction tables, and it gets worse the moment you add another hop (e.g.
+"prefer mentors who've mentored someone before"). The mentor-chain feature is
+even more relational-unfriendly: finding the shortest mentorship path between
+two arbitrary people requires a recursive CTE of unknown depth in SQL, versus
+a single `shortestPath()` pattern in Cypher. Relationships are first-class
+here, not reconstructed through foreign keys at query time.
+
+## Data model
+
+```mermaid
+graph LR
+    P((Person)) -->|HAS_SKILL level| S((Skill))
+    P -->|WORKS_ON role| PR((Project))
+    PR -->|REQUIRES priority| S
+    P -->|MENTORS since| P2((Person))
+```
+
+**Nodes**
+| Label | Properties |
+|---|---|
+| Person | name, title, email |
+| Skill | name |
+| Project | name, status, deadline |
+
+**Relationships**
+| Type | Direction | Properties |
+|---|---|---|
+| HAS_SKILL | Person → Skill | level |
+| WORKS_ON | Person → Project | role |
+| REQUIRES | Project → Skill | priority |
+| MENTORS | Person → Person | since |
+
+## Setup & run instructions
+
+1. Create a free CognoDB instance at [console.cognodb.com](https://console.cognodb.com) and save the URI + password.
+2. Clone this repo and open it in Eclipse (Import → Existing Maven Project).
+3. Set three environment variables (in Eclipse Run Configurations → Environment, or your OS shell): `COGNODB_URI`, `COGNODB_USER`, `COGNODB_PASSWORD`.
+4. Run `SeedData.java` once to populate the graph.
+5. Run `CognodbAppApplication.java` to start the app.
+6. Visit `http://localhost:8080`.
+
+## Main queries explained
+
+**1. List all people** (`GET /api/people`) — simple lookup to power the person selector.
+
+**2. Recommend mentors** (`GET /api/recommend-mentors/{personName}`) — the multi-hop traversal. Finds `me → my project → required skill ← candidate who has that skill`, excluding people already on the project.
+
+**3. Mentor chain finder** (`GET /api/mentor-chain?from=X&to=Y`) — variable-length shortest path using `shortestPath((a)-[:MENTORS*1..5]->(b))`. This is the query that's awkward in a relational database.
+
+## Screenshots
+
+*(add after taking screenshots — see below)*
+
+## Tech stack
+
+Spring Boot · Neo4j Java Driver 5.24.0 · CognoDB · vanilla HTML/CSS/JS
+
+## Live demo
+
+*(add your Render URL here)*
