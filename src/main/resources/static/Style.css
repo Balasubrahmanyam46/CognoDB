@@ -1,0 +1,226 @@
+:root {
+  --ink: #1B1F1D;
+  --ink-grid: rgba(237,234,224,0.04);
+  --card: #E8E2D0;
+  --card-shadow: rgba(0,0,0,0.35);
+  --text-on-dark: #EDEAE0;
+  --text-muted-on-dark: #A9AA9F;
+  --text-on-card: #2B2A26;
+  --accent-brass: #C9A227;
+  --accent-teal: #4A7C6F;
+  --error: #C1553D;
+  --radius: 3px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background-color: var(--ink);
+  background-image: linear-gradient(var(--ink-grid) 1px, transparent 1px), linear-gradient(90deg, var(--ink-grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  color: var(--text-on-dark);
+  font-family: 'IBM Plex Sans', sans-serif;
+  line-height: 1.5;
+}
+
+.masthead {
+  padding: 64px 24px 40px;
+  text-align: center;
+  border-bottom: 1px solid rgba(237,234,224,0.12);
+}
+
+.eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--accent-brass);
+  margin: 0 0 12px;
+}
+
+.masthead h1 {
+  font-family: 'Zilla Slab', serif;
+  font-weight: 700;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  margin: 0 0 12px;
+}
+
+.amp { color: var(--accent-teal); font-style: italic; }
+
+.tagline {
+  color: var(--text-muted-on-dark);
+  margin: 0;
+  font-size: 1rem;
+}
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  display: grid;
+  gap: 32px;
+}
+
+.drawer-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-teal);
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed rgba(237,234,224,0.2);
+}
+
+.panel-help {
+  color: var(--text-muted-on-dark);
+  font-size: 0.9rem;
+  margin: -4px 0 16px;
+}
+
+select, button {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.95rem;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(237,234,224,0.25);
+  background: var(--ink);
+  color: var(--text-on-dark);
+}
+
+select:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent-brass);
+  outline-offset: 2px;
+}
+
+button {
+  background: var(--accent-brass);
+  color: #1B1F1D;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+button:hover { transform: translateY(-1px); }
+
+.state-msg {
+  color: var(--text-muted-on-dark);
+  font-size: 0.9rem;
+  padding: 16px 0;
+}
+
+.state-msg.error { color: var(--error); }
+.state-msg.error button {
+  margin-left: 8px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+}
+
+.hidden { display: none; }
+
+.card-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  position: relative;
+  background: var(--card);
+  color: var(--text-on-card);
+  padding: 20px 18px 18px;
+  border-radius: var(--radius);
+  box-shadow: 0 6px 16px var(--card-shadow);
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: rotate(0deg) translateY(-3px);
+  box-shadow: 0 10px 22px var(--card-shadow);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 18px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #F0D77A, var(--accent-brass));
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+.card h3 {
+  font-family: 'Zilla Slab', serif;
+  margin: 6px 0 4px;
+  font-size: 1.1rem;
+}
+
+.card p {
+  margin: 2px 0;
+  font-size: 0.85rem;
+  color: #4A4A42;
+}
+
+.card .skill-tag {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  background: rgba(74,124,111,0.12);
+  color: var(--accent-teal);
+  padding: 3px 8px;
+  border-radius: 2px;
+  margin-top: 8px;
+}
+
+.chain-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.chain-controls .arrow {
+  color: var(--accent-teal);
+  font-size: 1.2rem;
+}
+
+.chain-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.chain-node {
+  background: var(--card);
+  color: var(--text-on-card);
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  font-family: 'Zilla Slab', serif;
+  font-weight: 600;
+  box-shadow: 0 4px 10px var(--card-shadow);
+}
+
+.chain-thread {
+  width: 36px;
+  height: 1px;
+  border-top: 2px dashed var(--accent-teal);
+  margin: 0 4px;
+}
+
+footer {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-muted-on-dark);
+  font-size: 0.8rem;
+  border-top: 1px solid rgba(237,234,224,0.1);
+}
+
+@media (max-width: 600px) {
+  .masthead { padding: 48px 16px 32px; }
+  main { padding: 32px 16px 64px; }
+}

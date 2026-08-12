@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill Exchange — Mentor Matching Network</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="masthead">
+    <p class="eyebrow">CARD CATALOG NO. 001 — INTERNAL USE</p>
+    <h1>Skill Exchange <span class="amp">&amp;</span> Mentor Matching</h1>
+    <p class="tagline">Find who's connected to the skills your project needs.</p>
+  </header>
+
+  <main>
+    <section class="panel lookup-panel">
+      <p class="drawer-label">Find a person</p>
+      <div id="lookup-loading" class="state-msg">Loading directory…</div>
+      <div id="lookup-error" class="state-msg error hidden">
+        Couldn't reach the network. <button id="retry-people">Retry</button>
+      </div>
+      <select id="person-select" class="hidden"></select>
+    </section>
+
+    <section class="panel mentors-panel">
+      <p class="drawer-label">Recommended mentors</p>
+      <div id="mentors-empty" class="state-msg">Select a person above to see who could mentor them on their current project.</div>
+      <div id="mentors-loading" class="state-msg hidden">Searching the network…</div>
+      <div id="mentors-error" class="state-msg error hidden">Couldn't reach the network. <button id="retry-mentors">Retry</button></div>
+      <div id="mentors-none" class="state-msg hidden">No mentor matches found — this person's project may not have skill gaps covered elsewhere yet.</div>
+      <div id="mentors-list" class="card-row"></div>
+    </section>
+
+    <section class="panel chain-panel">
+      <p class="drawer-label">Mentor chain finder</p>
+      <p class="panel-help">Trace how mentorship connects any two people, hop by hop.</p>
+      <div class="chain-controls">
+        <select id="chain-from"></select>
+        <span class="arrow">→</span>
+        <select id="chain-to"></select>
+        <button id="chain-find">Find path</button>
+      </div>
+      <div id="chain-loading" class="state-msg hidden">Tracing the path…</div>
+      <div id="chain-error" class="state-msg error hidden">Couldn't reach the network. <button id="retry-chain">Retry</button></div>
+      <div id="chain-none" class="state-msg hidden">No mentorship chain connects these two people yet.</div>
+      <div id="chain-result" class="chain-row"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Built on CognoDB — a graph of people, skills, and projects.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
